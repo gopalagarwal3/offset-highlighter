@@ -86,8 +86,8 @@ public class OffsetPassageFormatter extends PassageFormatter {
         end = Math.min(end, passage.getEndOffset()); // in case match straddles past passage
 
         sb.append(preTag);
-		sb.append(" startoffset=" + Integer.toString(passage.getStartOffset()));
-		sb.append(" endoffset=" + Integer.toString(passage.getEndOffset()));
+        sb.append(" startoffset=" + Integer.toString(passage.getStartOffset()));
+        sb.append(" endoffset=" + Integer.toString(passage.getEndOffset()));
         append(sb, content, start, end);
         sb.append(postTag);
 
