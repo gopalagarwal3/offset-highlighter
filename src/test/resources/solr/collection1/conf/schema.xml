@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+
+<schema name="documents" version="1.1">
+
+    <!--
+        Fields
+    -->
+
+    <field name="id" type="string" indexed="true"  stored="true"  multiValued="false" />
+    <field name="content" type="text" indexed="true"  stored="true"  multiValued="false" termOffsets="true" termPositions="true" termVectors="true" />
+    <field name="content_payload" type="payload" indexed="true"  stored="true"  multiValued="false" termPayloads="true" termOffsets="true" termPositions="true" termVectors="true" />
+    <field name="content_payload_b64" type="payload_b64" indexed="true" stored="true" multiValued="false" termPayloads="true" termOffsets="true" termPositions="true" termVectors="true" />
+    <field name="content_payload_buffered" type="payload_buffered" indexed="true" stored="true" multiValued="true" termPayloads="true" termOffsets="true" termPositions="true" termVectors="true" />
+
+    <!--
+        Copy fields
+    -->
+
+    <!--
+        Internal schema configuration settings
+    -->
+    <field name="_root_" type="string" indexed="true" stored="false"/>
+
+    <!-- Used by Solr for optimistic concurrency -->
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+
+    <!-- field to use to determine and enforce document uniqueness. -->
+    <uniqueKey>id</uniqueKey>
+
+    <!--
+        Field Types
+    -->
+    <!-- Delimited Payloads -->
+    <fieldType name="payload" stored="false" indexed="true" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="identity" />
+        <filter class="solr.WordDelimiterFilterFactory" />
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <!-- Delimited Payloads with Base64 decoding -->
+    <fieldType name="payload_b64" stored="false" indexed="true" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="com.o19s.payloads.Base64Encoder" />
+            <filter class="solr.WordDelimiterFilterFactory" />
+            <filter class="solr.LowerCaseFilterFactory" />
+        </analyzer>
+    </fieldType>
+
+    <!-- Delimited Payloads with PayloadBufferFilter -->
+    <fieldType name="payload_buffered" stored="false" indexed="true" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="identity" />
+            <filter class="com.o19s.payloads.filter.PayloadBufferFilterFactory" />
+            <filter class="solr.WordDelimiterFilterFactory" />
+            <filter class="solr.LowerCaseFilterFactory" />
+            <filter class="com.o19s.payloads.filter.PayloadBufferFilterFactory" />
+        </analyzer>
+    </fieldType>
+
+    <!-- Simple text analysis -->
+    <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <!-- Simple types -->
+    <fieldtype name="string" class="solr.StrField"      sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="long"   class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="int"    class="solr.TrieIntField"  precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="date"   class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
+
+</schema>
