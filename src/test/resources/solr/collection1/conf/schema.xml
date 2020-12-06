@@ -8,10 +8,6 @@
 
     <field name="id" type="string" indexed="true"  stored="true"  multiValued="false" />
     <field name="content" type="text" indexed="true"  stored="true"  multiValued="false" termOffsets="true" termPositions="true" termVectors="true" />
-    <field name="content_payload" type="payload" indexed="true"  stored="true"  multiValued="false" termPayloads="true" termOffsets="true" termPositions="true" termVectors="true" />
-    <field name="content_payload_b64" type="payload_b64" indexed="true" stored="true" multiValued="false" termPayloads="true" termOffsets="true" termPositions="true" termVectors="true" />
-    <field name="content_payload_buffered" type="payload_buffered" indexed="true" stored="true" multiValued="true" termPayloads="true" termOffsets="true" termPositions="true" termVectors="true" />
-
     <!--
         Copy fields
     -->
@@ -30,37 +26,6 @@
     <!--
         Field Types
     -->
-    <!-- Delimited Payloads -->
-    <fieldType name="payload" stored="false" indexed="true" class="solr.TextField">
-      <analyzer>
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-        <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="identity" />
-        <filter class="solr.WordDelimiterFilterFactory" />
-        <filter class="solr.LowerCaseFilterFactory" />
-      </analyzer>
-    </fieldType>
-
-    <!-- Delimited Payloads with Base64 decoding -->
-    <fieldType name="payload_b64" stored="false" indexed="true" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="com.o19s.payloads.Base64Encoder" />
-            <filter class="solr.WordDelimiterFilterFactory" />
-            <filter class="solr.LowerCaseFilterFactory" />
-        </analyzer>
-    </fieldType>
-
-    <!-- Delimited Payloads with PayloadBufferFilter -->
-    <fieldType name="payload_buffered" stored="false" indexed="true" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="identity" />
-            <filter class="com.o19s.payloads.filter.PayloadBufferFilterFactory" />
-            <filter class="solr.WordDelimiterFilterFactory" />
-            <filter class="solr.LowerCaseFilterFactory" />
-            <filter class="com.o19s.payloads.filter.PayloadBufferFilterFactory" />
-        </analyzer>
-    </fieldType>
 
     <!-- Simple text analysis -->
     <fieldType name="text" class="solr.TextField" positionIncrementGap="100">

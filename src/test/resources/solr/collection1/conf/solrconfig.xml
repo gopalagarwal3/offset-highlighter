@@ -76,10 +76,9 @@
 
   <requestHandler name="standard" class="solr.StandardRequestHandler" default="true">
     <lst name="defaults">
-        <str name="df">content_payload</str>
+        <str name="df">content</str>
     </lst>
     <arr name="last-components">
-        <str>payload</str>
     </arr>
   </requestHandler>
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
@@ -188,8 +187,5 @@
   <admin>
     <defaultQuery>solr</defaultQuery>
   </admin>
-
-  <searchComponent class="com.o19s.payloads.component.PayloadComponent" name="payload" />
-
 
 </config>
