@@ -1,0 +1,5 @@
+com\o19s\hl\SimpleOffsetFormatter.class
+com\search\offsetPlugin\OffsetPassageFormatter.class
+com\search\offsetPlugin\OffsetHighlighter.class
+com\search\offsetPlugin\OffsetHighlighter$OffsetSolrExtendedUnifiedHighlighter.class
+com\o19s\hl\OffsetFormatter.class
